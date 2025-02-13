@@ -43,10 +43,15 @@ public class Program
         {
             IImageService? dequeuedService = null; 
 
-            while (imageServices.TryDequeue(out dequeuedService) && !await query.Matches(dequeuedService))
+            bool noServices = false;
+            while ((noServices = imageServices.TryDequeue(out dequeuedService)) && !await query.Matches(dequeuedService!))
             {
+                if (noServices)
+                {
+                    return Results.Problem();
+                }
                 // There is definitely a better way of representing this but this is just example code so that does not matter. 
-                imageServices.Enqueue(dequeuedService);
+                imageServices.Enqueue(dequeuedService!);
             }
 
             if (dequeuedService is null)
