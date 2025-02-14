@@ -29,12 +29,12 @@ public class Program
 
         app.UseAuthorization();
 
+        // In-Memory Database may be a better choice for this. 
         ConcurrentQueue<IImageService> imageServices = [];
         
         app.MapGet("/services", () => imageServices);
 
-        // Service validation should probably be added
-        app.MapPost("/services", (IImageService imageService) => 
+        app.MapPost("/services", (IServiceValidation serviceValidation, HttpImageService imageService) => 
         {
             imageServices.Enqueue(imageService);
         });
@@ -42,7 +42,7 @@ public class Program
         app.MapPost("/process", async (IProcessQuery query, IImage image) => 
         {
             IImageService? dequeuedService = null; 
-
+            
             bool noServices = false;
             while ((noServices = imageServices.TryDequeue(out dequeuedService)) && !await query.Matches(dequeuedService!))
             {
@@ -68,6 +68,18 @@ public class Program
         });
 
         app.Run();
+    }
+}
+
+internal interface IServiceValidation
+{
+}
+
+internal class HttpImageService : IImageService
+{
+    public Task<IImage?> Process(IProcessQuery query, IImage image)
+    {
+        throw new NotImplementedException();
     }
 }
 

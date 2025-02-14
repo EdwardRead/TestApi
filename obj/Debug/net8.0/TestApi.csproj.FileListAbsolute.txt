@@ -31,3 +31,4 @@
 /cs/home/er251/Documents/CS3301/TestApi/obj/Debug/net8.0/TestApi.pdb
 /cs/home/er251/Documents/CS3301/TestApi/obj/Debug/net8.0/TestApi.genruntimeconfig.cache
 /cs/home/er251/Documents/CS3301/TestApi/obj/Debug/net8.0/ref/TestApi.dll
+/cs/home/er251/Documents/CS3301/TestApi/obj/Debug/net8.0/TestApi.sourcelink.json
